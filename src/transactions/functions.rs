@@ -29,7 +29,11 @@ pub async fn load_data(
 ) -> Result<transactions_query::ResponseData, MyError> {
     let url = "https://graphql.minaexplorer.com";
     let variables = transactions_query::Variables {
-        sort_by: transactions_query::TransactionSortByInput::BLOCKHEIGHT_DESC,
+        sort_by: if from_account.is_some() {
+            transactions_query::TransactionSortByInput::NONCE_DESC
+        } else {
+            transactions_query::TransactionSortByInput::BLOCKHEIGHT_DESC
+        },
         limit: Some(limit.into()),
         query: transactions_query::TransactionQueryInput {
             from: from_account,
