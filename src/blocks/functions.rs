@@ -26,13 +26,7 @@ pub fn get_snark_prover(snark: &BlocksQueryBlocksSnarkJobs) -> String {
         .as_ref()
         .map_or_else(String::new, |o| o.to_string())
 }
-pub fn get_snark_work_ids(snark: &BlocksQueryBlocksSnarkJobs) -> Vec<String> {
-    snark.work_ids.as_ref().map_or_else(Vec::new, |ids| {
-        ids.iter()
-            .map(|id| id.map_or_else(String::new, |id| id.to_string()))
-            .collect::<Vec<_>>()
-    })
-}
+
 pub fn get_snark_fee(snark: &BlocksQueryBlocksSnarkJobs) -> String {
     snark
         .fee
@@ -202,15 +196,6 @@ pub fn get_transaction_fees(block: &BlocksQueryBlocks) -> String {
         .unwrap_or_default()
 }
 
-pub fn get_winner_total(block: &BlocksQueryBlocks) -> String {
-    block
-        .winner_account
-        .as_ref()
-        .and_then(|w| w.balance.as_ref())
-        .and_then(|b| b.total.as_deref())
-        .map_or(String::new(), nanomina_str_to_mina)
-}
-
 pub fn get_snark_fees(block: &BlocksQueryBlocks) -> String {
     block
         .snark_fees
@@ -265,8 +250,8 @@ pub async fn load_data(
     };
 
     let client = reqwest::Client::new();
-
-    let response = post_graphql::<BlocksQuery, _>(&client, GRAPHQL_ENDPOINT, variables)
+    let endpoint = "http://localhost:8080/graphql";
+    let response = post_graphql::<BlocksQuery, _>(&client, endpoint, variables)
         .await
         .map_err(|e| MyError::NetworkError(e.to_string()))?;
 

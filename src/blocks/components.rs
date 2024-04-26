@@ -226,7 +226,7 @@ pub fn BlockAnalytics(block: BlocksQueryBlocks) -> impl IntoView {
             0
         }
     };
-    let winner_total = move || get_winner_total(&block_sig.get());
+    let winner_total = move || "".to_owned();
 
     view! {
         <TableSection section_heading="Analytics" controls=|| ().into_view()>
@@ -703,6 +703,12 @@ pub fn BlocksSection() -> impl IntoView {
                         <Table data=blocks_subset pagination=pag/>
                     </TableSection>
                     <Outlet/>
+                }
+                    .into_view()
+            }
+            Some(Err(e)) => {
+                view! {
+                    <span>{format!("Something went wrong!: {:?}", e)}</span>
                 }
                     .into_view()
             }

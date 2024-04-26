@@ -1,4 +1,8 @@
-query BlocksQuery($query: BlockQueryInput!, $limit: Int = 10, $sort_by: BlockSortByInput!) {
+query BlocksQuery(
+  $query: BlockQueryInput!
+  $limit: Int = 10
+  $sort_by: BlockSortByInput!
+) {
   blocks(query: $query, limit: $limit, sortBy: $sort_by) {
     blockHeight
     dateTime
@@ -10,11 +14,10 @@ query BlocksQuery($query: BlockQueryInput!, $limit: Int = 10, $sort_by: BlockSor
         publicKey
       }
       userCommands {
-        id
-        from 
+        from
         to
-        hash 
-        fee 
+        hash
+        fee
         amount
       }
       feeTransfer {
@@ -28,7 +31,6 @@ query BlocksQuery($query: BlockQueryInput!, $limit: Int = 10, $sort_by: BlockSor
     }
     snarkJobs {
       prover
-      workIds
       blockStateHash
       blockHeight
       fee
@@ -49,9 +51,6 @@ query BlocksQuery($query: BlockQueryInput!, $limit: Int = 10, $sort_by: BlockSor
     }
     winnerAccount {
       publicKey
-      balance {
-        total
-      }
     }
     snarkFees
     txFees
