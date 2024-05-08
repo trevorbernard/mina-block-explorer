@@ -92,11 +92,6 @@ pub fn CommandSpotlightPage() -> impl IntoView {
                                     copiable: true,
                                 },
                                 SpotlightEntry {
-                                    label: "Payment ID".to_string(),
-                                    any_el: Some(convert_to_span(transaction.get_payment_id())),
-                                    copiable: true,
-                                },
-                                SpotlightEntry {
                                     label: "Block Height".to_string(),
                                     any_el: Some(convert_to_span(transaction.get_block_height())),
                                     ..Default::default()

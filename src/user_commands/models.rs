@@ -15,7 +15,6 @@ pub struct PoolUserCommandReceiver {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct PooledUserCommand {
-    pub id: Option<String>,
     pub hash: Option<String>,
     pub kind: Option<String>,
     pub nonce: Option<i64>,
@@ -62,7 +61,6 @@ impl From<PooledUserCommand> for transactions_query::TransactionsQueryTransactio
                 None
             },
             kind: txn.kind,
-            id: txn.id,
             to: match txn.receiver.clone() {
                 Some(receiver) => receiver.public_key.clone(),
                 None => None,
