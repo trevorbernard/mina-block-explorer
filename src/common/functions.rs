@@ -204,6 +204,15 @@ pub fn decorate_with_currency_tag(
     .into()
 }
 
+pub fn decorate_with_percentage_tag(data: String) -> HtmlElement<html::AnyElement> {
+    view! {
+        <span class="whitespace-nowrap">
+            {data} <span class="ml-1 uppercase font-light text-inherit/50"> %</span>
+        </span>
+    }
+    .into()
+}
+
 pub fn convert_to_tooltip(tooltip: String) -> HtmlElement<html::AnyElement> {
     view! {
         <span

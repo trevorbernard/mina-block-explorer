@@ -86,6 +86,10 @@ fn StakesPageContents() -> impl IntoView {
             column: "Ledger Hash".to_string(),
             is_searchable: false,
         },
+        TableColumn {
+            column: "% of Total Stake".to_string(),
+            is_searchable: false,
+        },
     ];
     let table_cols_length = table_columns.len();
     let table_columns_clone = table_columns.clone();

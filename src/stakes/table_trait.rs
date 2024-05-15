@@ -5,7 +5,7 @@ use staking_ledgers_query::StakingLedgersQueryStakes;
 
 impl TableData for Vec<Option<StakingLedgersQueryStakes>> {
     fn get_columns(&self) -> Vec<String> {
-        ["Key", "Stake", "Delegate", "Delegators", "Ledger Hash"]
+        ["Key", "Stake", "Delegate", "Delegators", "Ledger Hash", "% of Total Stake"]
             .iter()
             .map(ToString::to_string)
             .collect::<Vec<_>>()
@@ -37,6 +37,7 @@ impl TableData for Vec<Option<StakingLedgersQueryStakes>> {
                     ),
                     convert_to_pill(get_delegators_count(stake), ColorVariant::Blue),
                     convert_to_link(get_ledger_hash(stake), "#".to_string()),
+                    decorate_with_percentage_tag(get_percentage_stake(stake)),
                 ],
                 None => vec![],
             })

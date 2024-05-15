@@ -19,8 +19,9 @@ pub fn get_stake(stake: &StakingLedgersQueryStakes) -> String {
     stake
         .delegation_totals
         .as_ref()
-        .and_then(|delegation_totals| delegation_totals.total_delegated)
-        .map(|stake| format_mina(stake.to_string()))
+        .and_then(|delegation_totals| delegation_totals.total_delegated_nanomina)
+        .and_then(|total_delegated| Some(total_delegated))
+        .map(|stake_weight| nanomina_to_mina(stake_weight.try_into().unwrap()))
         .unwrap_or("0".to_string())
 }
 
@@ -44,13 +45,21 @@ pub fn get_ledger_hash(stake: &StakingLedgersQueryStakes) -> String {
         .map_or_else(String::new, ToString::to_string)
 }
 
+pub fn get_percentage_stake(stake: &StakingLedgersQueryStakes) -> String {
+    stake
+        .delegation_totals
+        .as_ref()
+        .and_then(|delegation_totals| delegation_totals.total_stake_percentage.clone())
+        .unwrap_or_default()
+}
+
 pub async fn load_data(
     epoch: Option<i64>,
     public_key: Option<String>,
     delegate: Option<String>,
 ) -> Result<staking_ledgers_query::ResponseData, MyError> {
     let variables = staking_ledgers_query::Variables {
-        sort_by: staking_ledgers_query::StakeSortByInput::BALANCE_DESC,
+        sort_by: staking_ledgers_query::StakeSortByInput::STAKE_DESC,
         limit: Some(TABLE_ROW_LIMIT),
         query: staking_ledgers_query::StakeQueryInput {
             public_key,
